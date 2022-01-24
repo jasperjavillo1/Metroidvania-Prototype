@@ -1,19 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //Hit points of a character.
+    protected float HP;
 
-    // Update is called once per frame
-    void Update()
+    //Defense of a character.
+    protected float DEF;
+
+    //Calculates damage taken from an attack.
+    private float damageCalculation(float incomingDamage)
     {
-        
+        float result = 0;
+        if (incomingDamage > DEF)
+        {
+            result = incomingDamage - DEF;
+        }
+        return result;
     }
 }
