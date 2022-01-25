@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private InputMaster playerInputActions;
     private InputAction movement;
+    public Player player;
 
     private void Awake()
     {
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
     private void DoShootBeam(InputAction.CallbackContext obj)
     {
         Debug.Log("Beam!");
+        player.fireBeam();
     }
 
     private void DoShootMissiles(InputAction.CallbackContext obj)
@@ -72,5 +74,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Debug.Log("Movement Values " + movement.ReadValue<float>());
+        player.walk(movement.ReadValue<float>());
     }
 }
