@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private void DoJump(InputAction.CallbackContext obj)
     {
         Debug.Log("Jump!");
+        player.jump();
     }
 
     private void DoShootBeam(InputAction.CallbackContext obj)
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("Movement Values " + movement.ReadValue<float>());
+        //Debug.Log("Movement Values " + movement.ReadValue<float>());
         player.walk(movement.ReadValue<float>());
     }
 }

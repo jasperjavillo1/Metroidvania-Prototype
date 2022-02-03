@@ -6,10 +6,12 @@ public class Player : Character
 {
     public GameObject beam;
     public float speed;
+
+    public AltitudeState CurrentAltitude = new AirbournState();
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCorutine(isAirbourn());
     }
 
     // Update is called once per frame
@@ -46,30 +48,66 @@ public class Player : Character
         transform.Translate(walkingSpeed,0,0);
     }
 
-    //Below is the State Machine, which controls when certain action can occur based on the player character's current condition.
-    class PlayerState
+    public void jump()
     {
-        public virtual PlayerState handleInput()
+        if(CurrentAltitude.GetType() == typeof(GroundedState))
+        {
+            transform.Translate(0,1,0);
+            CurrentAltitude = CurrentAltitude.intoAir();
+            Debug.Log("Jump");
+        }
+    }
+
+    IEnumerator isAirbourn()
+    {
+        yield return null;
+        while(true)
+        {
+            if(IsTouchingLayers(9) == false)
+            {
+                CurrentAltitude = CurrentAltitude.intoAir();
+            }
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Collision!");
+        if (collision.gameObject.tag == "Platform")
+        {
+            CurrentAltitude = CurrentAltitude.land();
+            Debug.Log("Landed!");
+        }
+    }
+
+    //Below is the State Machine, which controls when certain action can occur based on the player character's current condition.
+    public class AltitudeState
+    {
+        public virtual AltitudeState intoAir()
+        {
+            return this;
+        }
+        public virtual AltitudeState land()
         {
             return this;
         }
     }
 
     //When the player is idle on the ground.
-    class IdleState : PlayerState
+    class GroundedState : AltitudeState
     {
-        public override PlayerState handleInput()
+        public override AltitudeState intoAir()
         {
-            return base.handleInput();
+            return new AirbournState();
         }
     }
 
     //when the player is airbourn.
-    class AirbournState : PlayerState
+    class AirbournState : AltitudeState
     {
-        public override PlayerState handleInput()
+        public override AltitudeState land()
         {
-            return base.handleInput();
+            return new GroundedState();
         }
     }
 }

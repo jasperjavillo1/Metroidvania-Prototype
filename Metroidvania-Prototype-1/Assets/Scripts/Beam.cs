@@ -22,7 +22,7 @@ public class Beam : Attack
         while(true)
         {
             yield return null;
-            transform.Translate(1,0,0);
+            transform.Translate(speed,0,0);
         }
     }
 
