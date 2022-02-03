@@ -11,7 +11,7 @@ public class Player : Character
     // Start is called before the first frame update
     void Start()
     {
-        StartCorutine(isAirbourn());
+        //StartCoroutine(isAirbourn());
     }
 
     // Update is called once per frame
@@ -58,21 +58,24 @@ public class Player : Character
         }
     }
 
+    //Once started, will constantly check if Player is touching a Platform and set state to Airbourn if it is not.
+/*
     IEnumerator isAirbourn()
     {
         yield return null;
         while(true)
         {
-            if(IsTouchingLayers(9) == false)
+            if(IsTouchingLayers(9) == false)//IsTouchingLayers() does not exist in this context.
             {
                 CurrentAltitude = CurrentAltitude.intoAir();
             }
         }
     }
-
+*/
     void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Collision!");
+        //Changes state to Grounded when colliding with a designated platform.
         if (collision.gameObject.tag == "Platform")
         {
             CurrentAltitude = CurrentAltitude.land();
