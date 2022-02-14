@@ -49,29 +49,29 @@ public class PlayerController : MonoBehaviour
 
     private void DoJump(InputAction.CallbackContext obj)
     {
-        Debug.Log("Jump!");
+        //Debug.Log("Jump!");
         player.jump();
     }
 
     private void DoShootBeam(InputAction.CallbackContext obj)
     {
-        Debug.Log("Beam!");
+        //Debug.Log("Beam!");
         player.fireBeam();
     }
 
     private void DoShootMissiles(InputAction.CallbackContext obj)
     {
-        Debug.Log("Missiles!");
+        //Debug.Log("Missiles!");
     }
 
     private void DoCrouch(InputAction.CallbackContext obj)
     {
-        Debug.Log("Crouch!");
+        //Debug.Log("Crouch!");
     }
 
     private void DoStand(InputAction.CallbackContext obj)
     {
-        Debug.Log("Stand!");
+        //Debug.Log("Stand!");
     }
 
     private void FixedUpdate()
