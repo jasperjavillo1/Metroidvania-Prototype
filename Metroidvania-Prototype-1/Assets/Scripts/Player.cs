@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using MikrosClient;
 using MikrosClient.Analytics;
-using UnityEngine;
-
 
 public class Player : Character
 {
