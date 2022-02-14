@@ -1,23 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MikrosClient;
+using MikrosClient.Analytics;
 
 public class Player : Character
 {
     public GameObject beam;
     public float speed;
+    public float jumpHeight;
 
     public AltitudeState CurrentAltitude = new AirbournState();
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(isAirbourn());
+        set();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        isAirbourn();
     }
 
     private void set()
@@ -37,6 +40,15 @@ public class Player : Character
     //Instantiates a beam object in front of the player character.
     public void fireBeam()
     {
+        MikrosManager.Instance.AnalyticsController.LogEvent("shoot", (Hashtable customEventWholeData) =>
+        {
+            // handle success
+        },
+        onFailure =>
+        {
+           // handle failure
+           Debug.Log("No Event Logged.");
+        });
         Vector3 spawnPoint = transform.position + new Vector3(1,0,0);
         Instantiate(beam, spawnPoint, Quaternion.identity);
     }
@@ -51,27 +63,35 @@ public class Player : Character
     public void jump()
     {
         if(CurrentAltitude.GetType() == typeof(GroundedState))
-        {
-            transform.Translate(0,1,0);
+        {  
+            MikrosManager.Instance.AnalyticsController.LogEvent("player_jump", (Hashtable customEventWholeData) =>
+            {
+                // handle success
+            },
+            onFailure =>
+            {
+               // handle failure
+               Debug.Log("No Event Logged.");
+            });
+            transform.Translate(0,jumpHeight,0);
             CurrentAltitude = CurrentAltitude.intoAir();
             Debug.Log("Jump");
         }
     }
 
     //Once started, will constantly check if Player is touching a Platform and set state to Airbourn if it is not.
-/*
-    IEnumerator isAirbourn()
+
+    private void isAirbourn()
     {
-        yield return null;
-        while(true)
+        //Collider2D collider = this.GetComponent<Collider2D>();
+        if(GetComponent<Collider2D>().IsTouchingLayers() == false)
         {
-            if(IsTouchingLayers(9) == false)//IsTouchingLayers() does not exist in this context.
-            {
-                CurrentAltitude = CurrentAltitude.intoAir();
-            }
+            CurrentAltitude = CurrentAltitude.intoAir();
+            Debug.Log("In Air!");
         }
+        
     }
-*/
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Collision!");

@@ -2005,6 +2005,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1098468840434666471, guid: 5398f707227fef64f91fa4a83eeba542, type: 3}
+      propertyPath: jumpHeight
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1098468840434666476, guid: 5398f707227fef64f91fa4a83eeba542, type: 3}
       propertyPath: m_Name
       value: PlayerPlaceholder
