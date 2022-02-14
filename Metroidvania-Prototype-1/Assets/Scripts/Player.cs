@@ -44,7 +44,6 @@ public class Player : Character
         MikrosManager.Instance.AnalyticsController.LogEvent("shoot", (Hashtable customEventWholeData) =>
         {
             // handle success
-            Debug.Log("shoot Event Logged.");
         },
         onFailure =>
         {
@@ -69,25 +68,15 @@ public class Player : Character
             MikrosManager.Instance.AnalyticsController.LogEvent("player_jump", (Hashtable customEventWholeData) =>
             {
                 // handle success
-                Debug.Log("jump Event Logged.");
             },
             onFailure =>
             {
                // handle failure
                Debug.Log("No Event Logged.");
             });
-            //transform.Translate(0,jumpHeight,0);
+            transform.Translate(0,jumpHeight,0);
             CurrentAltitude = CurrentAltitude.intoAir();
-            StartCoroutine(jumpAction());
-        }
-    }
-
-    IEnumerator jumpAction()
-    {
-        for(int x = 0; x < jumpHeight; x++)
-        {
-            transform.Translate(0,1,0);
-            yield return new WaitForFixedUpdate();
+            Debug.Log("Jump");
         }
     }
 
@@ -99,16 +88,19 @@ public class Player : Character
         if(GetComponent<Collider2D>().IsTouchingLayers() == false)
         {
             CurrentAltitude = CurrentAltitude.intoAir();
+            Debug.Log("In Air!");
         }
         
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Collision!");
         //Changes state to Grounded when colliding with a designated platform.
         if (collision.gameObject.tag == "Platform")
         {
             CurrentAltitude = CurrentAltitude.land();
+            Debug.Log("Landed!");
         }
     }
 

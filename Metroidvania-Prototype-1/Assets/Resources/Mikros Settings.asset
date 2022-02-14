@@ -15,7 +15,7 @@ MonoBehaviour:
   appGameID: tg-61fc300b9610a
   apiKeyProduction: va17w5QSfP1QjLjFKsZImjauOtlgDGua
   apiKeyQA: 
-  apiKeyDevelopment: Lzb2FxFUm1CUsiKiSXliiIoPbF1EXGkH
+  apiKeyDevelopment: 
   apiKeyToUse: 0
   autoInitializeAtStart: 1
   autoTrackSession: 1
