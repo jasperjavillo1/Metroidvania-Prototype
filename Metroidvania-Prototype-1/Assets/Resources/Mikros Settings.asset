@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mikros Settings
   m_EditorClassIdentifier: 
   appGameID: tg-61fc300b9610a
-  apiKeyProduction: va17w5QSfP1QjLjFKsZImjauOtlgDGua
+  apiKeyProduction: gkA5SGz5IIzw3KSD49tntIJy9Sge3mTf
   apiKeyQA: 
   apiKeyDevelopment: 
   apiKeyToUse: 0

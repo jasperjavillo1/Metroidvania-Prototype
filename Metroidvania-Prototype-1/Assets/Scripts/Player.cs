@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using MikrosClient;
 using MikrosClient.Analytics;
+using UnityEngine;
 
 public class Player : Character
 {
@@ -43,6 +43,7 @@ public class Player : Character
         MikrosManager.Instance.AnalyticsController.LogEvent("shoot", (Hashtable customEventWholeData) =>
         {
             // handle success
+            Debug.Log("Beam Event Logged.");
         },
         onFailure =>
         {
@@ -67,15 +68,25 @@ public class Player : Character
             MikrosManager.Instance.AnalyticsController.LogEvent("player_jump", (Hashtable customEventWholeData) =>
             {
                 // handle success
+                Debug.Log("Jump Event Logged.");
             },
             onFailure =>
             {
                // handle failure
                Debug.Log("No Event Logged.");
             });
-            transform.Translate(0,jumpHeight,0);
             CurrentAltitude = CurrentAltitude.intoAir();
+            StartCoroutine(jumpAction());
             Debug.Log("Jump");
+        }
+    }
+
+    IEnumerator jumpAction()
+    {
+        for(int i = 0; i < jumpHeight; i++)
+        {
+            transform.Translate(0,1,0);
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -87,7 +98,7 @@ public class Player : Character
         if(GetComponent<Collider2D>().IsTouchingLayers() == false)
         {
             CurrentAltitude = CurrentAltitude.intoAir();
-            Debug.Log("In Air!");
+            //Debug.Log("In Air!");
         }
         
     }
@@ -99,7 +110,6 @@ public class Player : Character
         if (collision.gameObject.tag == "Platform")
         {
             CurrentAltitude = CurrentAltitude.land();
-            Debug.Log("Landed!");
         }
     }
 
