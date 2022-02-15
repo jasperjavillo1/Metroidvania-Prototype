@@ -49,13 +49,13 @@ public class PlayerController : MonoBehaviour
 
     private void DoJump(InputAction.CallbackContext obj)
     {
-        Debug.Log("Jump!");
+        //Debug.Log("Jump!");
         player.jump();
     }
 
     private void DoShootBeam(InputAction.CallbackContext obj)
     {
-        Debug.Log("Beam!");
+        //Debug.Log("Beam!");
         player.fireBeam();
     }
 
