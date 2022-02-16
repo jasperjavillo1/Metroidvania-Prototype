@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using MikrosApiClient;
-using MikrosApiClient.MikrosAnalytics;
+using MikrosClient;
+using MikrosClient.Analytics;
 using UnityEngine;
 
 public class Player : Character
