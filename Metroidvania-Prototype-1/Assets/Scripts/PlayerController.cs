@@ -49,13 +49,13 @@ public class PlayerController : MonoBehaviour
     private void DoJump(InputAction.CallbackContext obj)
     {
         //Debug.Log("Jump!");
-        player.jump();
+        player.Jump();
     }
 
     private void DoShootBeam(InputAction.CallbackContext obj)
     {
         //Debug.Log("Beam!");
-        player.fireBeam();
+        player.FireBeam();
     }
 
     private void DoShootMissiles(InputAction.CallbackContext obj)
@@ -76,6 +76,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         //Debug.Log("Movement Values " + movement.ReadValue<float>());
-        player.walk(movement.ReadValue<float>());
+        player.Walk(movement.ReadValue<float>());
     }
 }

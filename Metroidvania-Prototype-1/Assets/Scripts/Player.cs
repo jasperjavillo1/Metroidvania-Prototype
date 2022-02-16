@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using MikrosClient;
-using MikrosClient.Analytics;
+using MikrosApiClient;
+using MikrosApiClient.MikrosAnalytics;
 using UnityEngine;
 
 public class Player : Character
@@ -14,22 +14,22 @@ public class Player : Character
     // Start is called before the first frame update
     void Start()
     {
-        set();
+        Set();
     }
 
     // Update is called once per frame
     void Update()
     {
-        isAirbourn();
+        IsAirbourn();
     }
 
-    private void set()
+    private void Set()
     {
         HP = 99;
         DEF = 100;
     }
 
-    private void checkGameOver()
+    private void CheckGameOver()
     {
         if (HP <= 0)
         {
@@ -38,7 +38,7 @@ public class Player : Character
     }
 
     //Instantiates a beam object in front of the player character.
-    public void fireBeam()
+    public void FireBeam()
     {
         MikrosManager.Instance.AnalyticsController.LogEvent("shoot", (Hashtable customEventWholeData) =>
         {
@@ -55,13 +55,13 @@ public class Player : Character
     }
 
     //Move player along X-axis
-    public void walk(float direction)
+    public void Walk(float direction)
     {
         float walkingSpeed = speed * direction;
         transform.Translate(walkingSpeed,0,0);
     }
 
-    public void jump()
+    public void Jump()
     {
         if(CurrentAltitude.GetType() == typeof(GroundedState))
         {  
@@ -75,13 +75,13 @@ public class Player : Character
                // handle failure
                Debug.Log("No Event Logged.");
             });
-            CurrentAltitude = CurrentAltitude.intoAir();
-            StartCoroutine(jumpAction());
+            CurrentAltitude = CurrentAltitude.IntoAir();
+            StartCoroutine(JumpAction());
             Debug.Log("Jump");
         }
     }
 
-    IEnumerator jumpAction()
+    IEnumerator JumpAction()
     {
         for(int i = 0; i < jumpHeight; i++)
         {
@@ -92,12 +92,12 @@ public class Player : Character
 
     //Once started, will constantly check if Player is touching a Platform and set state to Airbourn if it is not.
 
-    private void isAirbourn()
+    private void IsAirbourn()
     {
         //Collider2D collider = this.GetComponent<Collider2D>();
         if(GetComponent<Collider2D>().IsTouchingLayers() == false)
         {
-            CurrentAltitude = CurrentAltitude.intoAir();
+            CurrentAltitude = CurrentAltitude.IntoAir();
             //Debug.Log("In Air!");
         }
         
@@ -109,18 +109,18 @@ public class Player : Character
         //Changes state to Grounded when colliding with a designated platform.
         if (collision.gameObject.tag == "Platform")
         {
-            CurrentAltitude = CurrentAltitude.land();
+            CurrentAltitude = CurrentAltitude.Land();
         }
     }
 
     //Below is the State Machine, which controls when certain action can occur based on the player character's current condition.
     public class AltitudeState
     {
-        public virtual AltitudeState intoAir()
+        public virtual AltitudeState IntoAir()
         {
             return this;
         }
-        public virtual AltitudeState land()
+        public virtual AltitudeState Land()
         {
             return this;
         }
@@ -129,7 +129,7 @@ public class Player : Character
     //When the player is idle on the ground.
     class GroundedState : AltitudeState
     {
-        public override AltitudeState intoAir()
+        public override AltitudeState IntoAir()
         {
             return new AirbournState();
         }
@@ -138,7 +138,7 @@ public class Player : Character
     //when the player is airbourn.
     class AirbournState : AltitudeState
     {
-        public override AltitudeState land()
+        public override AltitudeState Land()
         {
             return new GroundedState();
         }

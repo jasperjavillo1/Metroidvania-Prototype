@@ -12,7 +12,7 @@ public class Character : MonoBehaviour
     protected float DEF;
 
     //Calculates damage taken from an attack.
-    private float damageCalculation(float incomingDamage)
+    private float DamageCalculation(float incomingDamage)
     {
         float result = 0;
         if (incomingDamage > DEF)
