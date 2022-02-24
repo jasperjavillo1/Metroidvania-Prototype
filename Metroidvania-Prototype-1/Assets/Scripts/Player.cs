@@ -10,18 +10,25 @@ public class Player : Character
     [SerializeField] private float speed;
     [SerializeField] private float jumpHeight;
     private AltitudeState currentAltitude;
+    private float touchWalkDirection;
 
     // Start is called before the first frame update
     void Start()
     {
         Set();
         currentAltitude = new AirbournState();
+        touchWalkDirection = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         IsAirbourn();
+    }
+
+    private void FixedUpdate()
+    {
+        Walk(touchWalkDirection);
     }
 
     private void Set()
@@ -36,6 +43,11 @@ public class Player : Character
         {
             //game over event
         }
+    }
+
+    public void UpdateTouchWalkDirection(float direction)
+    {
+        touchWalkDirection = direction;
     }
 
     //Instantiates a beam object in front of the player character.
@@ -59,7 +71,7 @@ public class Player : Character
     public void Walk(float direction)
     {
         float walkingSpeed = speed * direction;
-        transform.Translate(walkingSpeed,0,0);
+        transform.Translate(walkingSpeed, 0, 0);
     }
 
     public void Jump()
