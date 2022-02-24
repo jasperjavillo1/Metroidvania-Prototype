@@ -6,15 +6,16 @@ using UnityEngine;
 
 public class Player : Character
 {
-    public GameObject beam;
-    public float speed;
-    public float jumpHeight;
+    [SerializeField] private Beam beam;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpHeight;
+    private AltitudeState currentAltitude;
 
-    public AltitudeState CurrentAltitude = new AirbournState();
     // Start is called before the first frame update
     void Start()
     {
         Set();
+        currentAltitude = new AirbournState();
     }
 
     // Update is called once per frame
@@ -40,7 +41,7 @@ public class Player : Character
     //Instantiates a beam object in front of the player character.
     public void FireBeam()
     {
-        MikrosManager.Instance.AnalyticsController.LogEvent("shoot", (Hashtable customEventWholeData) =>
+        MikrosManager.Instance.AnalyticsController.LogEvent("Shoot Beam", (Hashtable customEventWholeData) =>
         {
             // handle success
             Debug.Log("Beam Event Logged.");
@@ -63,22 +64,26 @@ public class Player : Character
 
     public void Jump()
     {
-        if(CurrentAltitude.GetType() == typeof(GroundedState))
-        {  
-            MikrosManager.Instance.AnalyticsController.LogEvent("player_jump", (Hashtable customEventWholeData) =>
+        Debug.Log("player.Jump start");
+        Debug.Log(currentAltitude.GetType());
+        Debug.Log(typeof(GroundedState) == currentAltitude.GetType());
+        if(typeof(GroundedState) == currentAltitude.GetType())
+        {
+            MikrosManager.Instance.AnalyticsController.LogEvent("Jump", (Hashtable customEventWholeData) =>
             {
                 // handle success
                 Debug.Log("Jump Event Logged.");
             },
             onFailure =>
             {
-               // handle failure
-               Debug.Log("No Event Logged.");
+                // handle failure
+                Debug.Log("No Event Logged.");
             });
-            CurrentAltitude = CurrentAltitude.IntoAir();
             StartCoroutine(JumpAction());
-            Debug.Log("Jump");
+            Debug.Log("Player Jump");
+            currentAltitude = currentAltitude.IntoAir();
         }
+        
     }
 
     IEnumerator JumpAction()
@@ -90,57 +95,23 @@ public class Player : Character
         }
     }
 
-    //Once started, will constantly check if Player is touching a Platform and set state to Airbourn if it is not.
-
-    private void IsAirbourn()
-    {
-        //Collider2D collider = this.GetComponent<Collider2D>();
-        if(GetComponent<Collider2D>().IsTouchingLayers() == false)
-        {
-            CurrentAltitude = CurrentAltitude.IntoAir();
-            //Debug.Log("In Air!");
-        }
-        
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Collision!");
         //Changes state to Grounded when colliding with a designated platform.
         if (collision.gameObject.tag == "Platform")
         {
-            CurrentAltitude = CurrentAltitude.Land();
+            currentAltitude = currentAltitude.Land();
+            Debug.Log(currentAltitude.GetType());
         }
     }
 
-    //Below is the State Machine, which controls when certain action can occur based on the player character's current condition.
-    public class AltitudeState
+    private void IsAirbourn()
     {
-        public virtual AltitudeState IntoAir()
+        if((GetComponent<Collider2D>().IsTouchingLayers() == false) && currentAltitude.GetType() == typeof(GroundedState))
         {
-            return this;
-        }
-        public virtual AltitudeState Land()
-        {
-            return this;
-        }
-    }
-
-    //When the player is idle on the ground.
-    class GroundedState : AltitudeState
-    {
-        public override AltitudeState IntoAir()
-        {
-            return new AirbournState();
-        }
-    }
-
-    //when the player is airbourn.
-    class AirbournState : AltitudeState
-    {
-        public override AltitudeState Land()
-        {
-            return new GroundedState();
+            currentAltitude = currentAltitude.IntoAir();
+            Debug.Log(currentAltitude.GetType());
         }
     }
 }
