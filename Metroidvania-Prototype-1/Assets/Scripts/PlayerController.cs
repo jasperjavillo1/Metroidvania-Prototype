@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private void DoJump(InputAction.CallbackContext obj)
     {
-        Debug.Log("Player Controller Jump");
+        //Debug.Log("Player Controller Jump");
         player.Jump();
     }
 
@@ -77,13 +77,5 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log("Movement Values " + movement.ReadValue<float>());
         player.Walk(movement.ReadValue<float>());
-        /*
-        if(Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            Vector3 touchPosition = Camera.main.ScreenToViewportPoint(touch.position);
-            if(touchPosition == )
-        }
-        */
     }
 }

@@ -76,9 +76,11 @@ public class Player : Character
 
     public void Jump()
     {
+        /*
         Debug.Log("player.Jump start");
         Debug.Log(currentAltitude.GetType());
         Debug.Log(typeof(GroundedState) == currentAltitude.GetType());
+        */
         if(typeof(GroundedState) == currentAltitude.GetType())
         {
             MikrosManager.Instance.AnalyticsController.LogEvent("Jump", (Hashtable customEventWholeData) =>
@@ -92,7 +94,7 @@ public class Player : Character
                 Debug.Log("No Event Logged.");
             });
             StartCoroutine(JumpAction());
-            Debug.Log("Player Jump");
+            //Debug.Log("Player Jump");
             currentAltitude = currentAltitude.IntoAir();
         }
         
@@ -109,12 +111,12 @@ public class Player : Character
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision!");
+        //Debug.Log("Collision!");
         //Changes state to Grounded when colliding with a designated platform.
         if (collision.gameObject.tag == "Platform")
         {
             currentAltitude = currentAltitude.Land();
-            Debug.Log(currentAltitude.GetType());
+            //Debug.Log(currentAltitude.GetType());
         }
     }
 
@@ -123,7 +125,7 @@ public class Player : Character
         if((GetComponent<Collider2D>().IsTouchingLayers() == false) && currentAltitude.GetType() == typeof(GroundedState))
         {
             currentAltitude = currentAltitude.IntoAir();
-            Debug.Log(currentAltitude.GetType());
+            //Debug.Log(currentAltitude.GetType());
         }
     }
 }
